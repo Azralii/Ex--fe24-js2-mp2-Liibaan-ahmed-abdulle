@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="sv">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>TypeScript E-handel</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <div class="container">
+        <h1>Välkommen till TypeScript E-handel 🛒</h1>
+
+        <!-- Filter- och sorteringsformulär -->
+        <form id="filterForm">
+            <select id="categorySelect">
+                <option value="">Välj kategori</option>
+                <option value="electronics">Elektronik</option>
+                <option value="clothing">Kläder</option>
+                <option value="beauty">Skönhet</option>
+            </select>
+            <input type="number" id="maxPrice" placeholder="Maxpris">
+            <button type="submit">Filtrera</button>
+        </form>
+
+        <label for="sortSelect">Sortera efter:</label>
+        <select id="sortSelect">
+            <option value="rate-des">Betyg: Hög till låg</option>
+            <option value="rate-asc">Betyg: Låg till hög</option>
+            <option value="price-des">Pris: Hög till låg</option>
+            <option value="price-asc">Pris: Låg till hög</option>
+        </select>
+
+        <!-- Produkter renderas här -->
+        <div id="productCardContainer"></div>
+    </div>
+
+    <!-- Bundlad JavaScript-fil från Parcel -->
+    <script type="module" src="src/index.ts" defer></script>
+</body>
+</html>

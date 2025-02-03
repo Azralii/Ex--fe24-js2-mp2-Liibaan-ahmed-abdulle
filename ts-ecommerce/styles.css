@@ -1,0 +1,120 @@
+/* Grundläggande reset för att ta bort standardmarginaler och paddings */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: Arial, sans-serif;
+  }
+  
+  /* Grundläggande stil för hela sidan */
+  body {
+    background-color: #f5f5f5;
+    color: #333;
+    padding: 20px;
+  }
+  
+  /* Huvudcontainer */
+  .container {
+    max-width: 1200px;
+    margin: auto;
+  }
+  
+  /* Rubriker */
+  h1 {
+    text-align: center;
+    margin-bottom: 20px;
+  }
+  
+  /* Produktkort */
+  #productCardContainer {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+    gap: 20px;
+    justify-content: center;
+  }
+  
+  /* Enskilt produktkort */
+  .product-card {
+    background: white;
+    border-radius: 10px;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    padding: 15px;
+    text-align: center;
+    transition: transform 0.2s ease-in-out;
+  }
+  
+  .product-card:hover {
+    transform: scale(1.05);
+  }
+  
+  /* Produktbild */
+  .product-card img {
+    max-width: 100%;
+    height: 150px;
+    object-fit: cover;
+    border-radius: 5px;
+  }
+  
+  /* Produktinfo */
+  .product-card h2 {
+    font-size: 18px;
+    margin: 10px 0;
+  }
+  
+  .product-card p {
+    font-size: 16px;
+    color: #555;
+  }
+  
+  /* Lagerstatus */
+  .stock {
+    font-weight: bold;
+    color: #27ae60;
+  }
+  
+  /* Pris */
+  .product-card p {
+    font-size: 18px;
+    font-weight: bold;
+    color: #e74c3c;
+  }
+  
+  /* Köp-knapp */
+  button {
+    background-color: #3498db;
+    color: white;
+    border: none;
+    padding: 10px;
+    cursor: pointer;
+    border-radius: 5px;
+    margin-top: 10px;
+    transition: background 0.2s;
+  }
+  
+  button:hover {
+    background-color: #2980b9;
+  }
+  
+  /* Filter- och sorteringsformulär */
+  #filterForm {
+    display: flex;
+    justify-content: center;
+    gap: 10px;
+    margin-bottom: 20px;
+  }
+  
+  #filterForm select,
+  #filterForm input {
+    padding: 10px;
+    border-radius: 5px;
+    border: 1px solid #ccc;
+  }
+  
+  /* Responsivitet */
+  @media (max-width: 600px) {
+    #filterForm {
+      flex-direction: column;
+      align-items: center;
+    }
+  }
+  
