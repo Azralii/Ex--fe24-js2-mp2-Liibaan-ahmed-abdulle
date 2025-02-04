@@ -635,21 +635,54 @@ loadProducts();
 var parcelHelpers = require("@parcel/transformer-js/src/esmodule-helpers.js");
 parcelHelpers.defineInteropFlag(exports);
 parcelHelpers.export(exports, "getAllProducts", ()=>getAllProducts);
-var _product = require("./models/Product");
+var _product = require("./modules/Product");
 const getAllProducts = async ()=>{
-    const url = "https://dummyjson.com/products";
+    const url = "https://dummyjson.com/products?limit=100";
     try {
         const res = await fetch(url);
         if (!res.ok) throw new Error("Failed to fetch products");
         const data = await res.json();
+        console.log("Alla kategorier fr\xe5n API:", [
+            ...new Set(data.products.map((p)=>p.category))
+        ]);
         return data.products.map((p)=>new (0, _product.Product)(p));
     } catch (error) {
-        console.error(error);
+        console.error("Fel vid h\xe4mtning:", error);
         return [];
     }
 };
 
-},{"./models/Product":"gz1cO","@parcel/transformer-js/src/esmodule-helpers.js":"gkKU3"}],"gz1cO":[function(require,module,exports,__globalThis) {
+},{"@parcel/transformer-js/src/esmodule-helpers.js":"gkKU3","./modules/Product":"lFEiP"}],"gkKU3":[function(require,module,exports,__globalThis) {
+exports.interopDefault = function(a) {
+    return a && a.__esModule ? a : {
+        default: a
+    };
+};
+exports.defineInteropFlag = function(a) {
+    Object.defineProperty(a, '__esModule', {
+        value: true
+    });
+};
+exports.exportAll = function(source, dest) {
+    Object.keys(source).forEach(function(key) {
+        if (key === 'default' || key === '__esModule' || Object.prototype.hasOwnProperty.call(dest, key)) return;
+        Object.defineProperty(dest, key, {
+            enumerable: true,
+            get: function() {
+                return source[key];
+            }
+        });
+    });
+    return dest;
+};
+exports.export = function(dest, destName, get) {
+    Object.defineProperty(dest, destName, {
+        enumerable: true,
+        get: get
+    });
+};
+
+},{}],"lFEiP":[function(require,module,exports,__globalThis) {
 var parcelHelpers = require("@parcel/transformer-js/src/esmodule-helpers.js");
 parcelHelpers.defineInteropFlag(exports);
 parcelHelpers.export(exports, "Product", ()=>Product);
@@ -687,37 +720,7 @@ class Product {
     }
 }
 
-},{"@parcel/transformer-js/src/esmodule-helpers.js":"gkKU3"}],"gkKU3":[function(require,module,exports,__globalThis) {
-exports.interopDefault = function(a) {
-    return a && a.__esModule ? a : {
-        default: a
-    };
-};
-exports.defineInteropFlag = function(a) {
-    Object.defineProperty(a, '__esModule', {
-        value: true
-    });
-};
-exports.exportAll = function(source, dest) {
-    Object.keys(source).forEach(function(key) {
-        if (key === 'default' || key === '__esModule' || Object.prototype.hasOwnProperty.call(dest, key)) return;
-        Object.defineProperty(dest, key, {
-            enumerable: true,
-            get: function() {
-                return source[key];
-            }
-        });
-    });
-    return dest;
-};
-exports.export = function(dest, destName, get) {
-    Object.defineProperty(dest, destName, {
-        enumerable: true,
-        get: get
-    });
-};
-
-},{}],"1GEWg":[function(require,module,exports,__globalThis) {
+},{"@parcel/transformer-js/src/esmodule-helpers.js":"gkKU3"}],"1GEWg":[function(require,module,exports,__globalThis) {
 var parcelHelpers = require("@parcel/transformer-js/src/esmodule-helpers.js");
 parcelHelpers.defineInteropFlag(exports);
 parcelHelpers.export(exports, "renderProducts", ()=>renderProducts);
@@ -758,6 +761,8 @@ parcelHelpers.defineInteropFlag(exports);
 parcelHelpers.export(exports, "filterByCategory", ()=>filterByCategory);
 parcelHelpers.export(exports, "filterByMaxPrice", ()=>filterByMaxPrice);
 const filterByCategory = (products, category)=>{
+    console.log("Vald kategori:", category);
+    if (!category) return products; // Om ingen kategori är vald, returnera alla produkter
     return products.filter((product)=>product.getCategory().toLowerCase() === category.toLowerCase());
 };
 const filterByMaxPrice = (products, maxPrice)=>{

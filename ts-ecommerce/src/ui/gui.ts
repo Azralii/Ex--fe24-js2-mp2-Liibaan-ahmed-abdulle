@@ -1,4 +1,4 @@
-import { Product } from "../models/Product";
+import { Product } from "../modules/Product";
 
 export const renderProducts = (products: Product[]): void => {
   const productContainer = document.querySelector("#productCardContainer") as HTMLDivElement;

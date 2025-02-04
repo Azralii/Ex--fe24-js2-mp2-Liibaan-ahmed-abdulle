@@ -1,4 +1,4 @@
-import { ProductType } from "./types";
+import { ProductType } from "../modules/types";
 
 export class Product {
     private title: string;

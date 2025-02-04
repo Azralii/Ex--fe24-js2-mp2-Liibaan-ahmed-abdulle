@@ -2,7 +2,7 @@
   "name": "ts-ecommerce",
   "version": "1.0.0",
     "scripts": {
-      "start": "parcel index.html",
+      "dev": "parcel index.html",
       "build": "parcel build index.html"
   },
   "keywords": [],

@@ -2,7 +2,7 @@ import { getAllProducts } from "./api";
 import { renderProducts } from "./ui/gui";
 import { filterByCategory, filterByMaxPrice } from "./utils/filtering";
 import { getSortedProducts } from "./utils/sorting";
-import { Product } from "./models/Product";
+import { Product } from "./modules/Product";
 
 const sortSelect = document.querySelector("#sortSelect") as HTMLSelectElement | null;
 const filterForm = document.querySelector("#filterForm") as HTMLFormElement | null;

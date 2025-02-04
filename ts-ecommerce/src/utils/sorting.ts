@@ -1,6 +1,6 @@
 // src/utils/sorting.ts
 
-import { Product } from "../models/Product"; 
+import { Product } from "../modules/Product"; 
 
 export type SortOrder = "ascending" | "descending";
 export type SortBy = "rate-des" | "rate-asc" | "price-des" | "price-asc";
