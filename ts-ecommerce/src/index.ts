@@ -1,7 +1,7 @@
 import { getAllProducts } from "./api";
 import { renderProducts } from "./ui/gui";
 import { filterByCategory, filterByMaxPrice } from "./utils/filtering";
-import { getSortedProducts } from "./utils/sorting";
+import { SortBy, getSortedProducts } from "./utils/sorting";
 import { Product } from "./modules/Product";
 
 const sortSelect = document.querySelector("#sortSelect") as HTMLSelectElement | null;
@@ -31,22 +31,28 @@ loadProducts();
 filterForm.addEventListener("submit", (event) => {
     event.preventDefault();
 
-    const category = (filterForm.querySelector("select") as HTMLSelectElement).value;
+    const category = (filterForm.querySelector("select") as HTMLSelectElement).value.toLowerCase();
     const maxPriceInput = filterForm.querySelector("input") as HTMLInputElement;
     const maxPrice = maxPriceInput.value ? parseFloat(maxPriceInput.value) : NaN;
 
     filteredProducts = category ? filterByCategory(products, category) : products;
+
     if (!isNaN(maxPrice)) {
         filteredProducts = filterByMaxPrice(filteredProducts, maxPrice);
     }
 
-    const sortedProducts = getSortedProducts(filteredProducts, sortSelect.value as "rate-des" | "rate-asc" | "price-des" | "price-asc");
-    renderProducts(sortedProducts);
+    // Sortera efter den aktuella sorteringen
+    filteredProducts = getSortedProducts(filteredProducts, sortSelect.value as SortBy);
+
+    renderProducts(filteredProducts);
 });
 
-/** Sortering **/
+/** Sortering - NU PÅ RÄTT PLATS ✅ **/
 sortSelect.addEventListener("change", () => {
-    const sortBy = sortSelect.value as "rate-des" | "rate-asc" | "price-des" | "price-asc";
-    const sortedProducts = getSortedProducts(filteredProducts, sortBy);
-    renderProducts(sortedProducts);
+    console.log("Sorteringsval ändrat till:", sortSelect.value);
+    
+    // Sortera direkt på senaste filtrerade listan
+    filteredProducts = getSortedProducts(filteredProducts, sortSelect.value as SortBy);
+    
+    renderProducts(filteredProducts);
 });

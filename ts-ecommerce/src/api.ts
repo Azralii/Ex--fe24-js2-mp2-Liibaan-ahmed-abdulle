@@ -17,3 +17,4 @@ export const getAllProducts = async (): Promise<Product[]> => {
       return [];
     }
   };
+  

@@ -617,18 +617,20 @@ let filteredProducts = [];
 loadProducts();
 /** Filtrering **/ filterForm.addEventListener("submit", (event)=>{
     event.preventDefault();
-    const category = filterForm.querySelector("select").value;
+    const category = filterForm.querySelector("select").value.toLowerCase();
     const maxPriceInput = filterForm.querySelector("input");
     const maxPrice = maxPriceInput.value ? parseFloat(maxPriceInput.value) : NaN;
     filteredProducts = category ? (0, _filtering.filterByCategory)(products, category) : products;
     if (!isNaN(maxPrice)) filteredProducts = (0, _filtering.filterByMaxPrice)(filteredProducts, maxPrice);
-    const sortedProducts = (0, _sorting.getSortedProducts)(filteredProducts, sortSelect.value);
-    (0, _gui.renderProducts)(sortedProducts);
+    // Sortera efter den aktuella sorteringen
+    filteredProducts = (0, _sorting.getSortedProducts)(filteredProducts, sortSelect.value);
+    (0, _gui.renderProducts)(filteredProducts);
 });
-/** Sortering **/ sortSelect.addEventListener("change", ()=>{
-    const sortBy = sortSelect.value;
-    const sortedProducts = (0, _sorting.getSortedProducts)(filteredProducts, sortBy);
-    (0, _gui.renderProducts)(sortedProducts);
+/** Sortering - NU PÅ RÄTT PLATS ✅ **/ sortSelect.addEventListener("change", ()=>{
+    console.log("Sorteringsval \xe4ndrat till:", sortSelect.value);
+    // Sortera direkt på senaste filtrerade listan
+    filteredProducts = (0, _sorting.getSortedProducts)(filteredProducts, sortSelect.value);
+    (0, _gui.renderProducts)(filteredProducts);
 });
 
 },{"./api":"1w4TK","./ui/gui":"1GEWg","./utils/filtering":"gk3Ke","./utils/sorting":"j7K85"}],"1w4TK":[function(require,module,exports,__globalThis) {
@@ -652,37 +654,7 @@ const getAllProducts = async ()=>{
     }
 };
 
-},{"@parcel/transformer-js/src/esmodule-helpers.js":"gkKU3","./modules/Product":"lFEiP"}],"gkKU3":[function(require,module,exports,__globalThis) {
-exports.interopDefault = function(a) {
-    return a && a.__esModule ? a : {
-        default: a
-    };
-};
-exports.defineInteropFlag = function(a) {
-    Object.defineProperty(a, '__esModule', {
-        value: true
-    });
-};
-exports.exportAll = function(source, dest) {
-    Object.keys(source).forEach(function(key) {
-        if (key === 'default' || key === '__esModule' || Object.prototype.hasOwnProperty.call(dest, key)) return;
-        Object.defineProperty(dest, key, {
-            enumerable: true,
-            get: function() {
-                return source[key];
-            }
-        });
-    });
-    return dest;
-};
-exports.export = function(dest, destName, get) {
-    Object.defineProperty(dest, destName, {
-        enumerable: true,
-        get: get
-    });
-};
-
-},{}],"lFEiP":[function(require,module,exports,__globalThis) {
+},{"./modules/Product":"lFEiP","@parcel/transformer-js/src/esmodule-helpers.js":"gkKU3"}],"lFEiP":[function(require,module,exports,__globalThis) {
 var parcelHelpers = require("@parcel/transformer-js/src/esmodule-helpers.js");
 parcelHelpers.defineInteropFlag(exports);
 parcelHelpers.export(exports, "Product", ()=>Product);
@@ -720,7 +692,37 @@ class Product {
     }
 }
 
-},{"@parcel/transformer-js/src/esmodule-helpers.js":"gkKU3"}],"1GEWg":[function(require,module,exports,__globalThis) {
+},{"@parcel/transformer-js/src/esmodule-helpers.js":"gkKU3"}],"gkKU3":[function(require,module,exports,__globalThis) {
+exports.interopDefault = function(a) {
+    return a && a.__esModule ? a : {
+        default: a
+    };
+};
+exports.defineInteropFlag = function(a) {
+    Object.defineProperty(a, '__esModule', {
+        value: true
+    });
+};
+exports.exportAll = function(source, dest) {
+    Object.keys(source).forEach(function(key) {
+        if (key === 'default' || key === '__esModule' || Object.prototype.hasOwnProperty.call(dest, key)) return;
+        Object.defineProperty(dest, key, {
+            enumerable: true,
+            get: function() {
+                return source[key];
+            }
+        });
+    });
+    return dest;
+};
+exports.export = function(dest, destName, get) {
+    Object.defineProperty(dest, destName, {
+        enumerable: true,
+        get: get
+    });
+};
+
+},{}],"1GEWg":[function(require,module,exports,__globalThis) {
 var parcelHelpers = require("@parcel/transformer-js/src/esmodule-helpers.js");
 parcelHelpers.defineInteropFlag(exports);
 parcelHelpers.export(exports, "renderProducts", ()=>renderProducts);
@@ -761,9 +763,22 @@ parcelHelpers.defineInteropFlag(exports);
 parcelHelpers.export(exports, "filterByCategory", ()=>filterByCategory);
 parcelHelpers.export(exports, "filterByMaxPrice", ()=>filterByMaxPrice);
 const filterByCategory = (products, category)=>{
-    console.log("Vald kategori:", category);
-    if (!category) return products; // Om ingen kategori är vald, returnera alla produkter
-    return products.filter((product)=>product.getCategory().toLowerCase() === category.toLowerCase());
+    const categoryMapping = {
+        electronics: [
+            "laptops",
+            "mobile-accessories"
+        ],
+        beauty: [
+            "beauty"
+        ],
+        "mens-shoes": [
+            "mens-shoes"
+        ]
+    };
+    const validCategories = categoryMapping[category] || [
+        category
+    ]; // Om kategorin finns i mappen, använd den
+    return products.filter((product)=>validCategories.includes(product.getCategory().toLowerCase()));
 };
 const filterByMaxPrice = (products, maxPrice)=>{
     return products.filter((product)=>product.getDiscountedPrice() <= maxPrice);
