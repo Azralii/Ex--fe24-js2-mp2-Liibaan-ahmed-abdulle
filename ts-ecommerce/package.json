@@ -2,15 +2,15 @@
   "name": "ts-ecommerce",
   "version": "1.0.0",
     "scripts": {
-      "dev": "parcel index.html",
-      "build": "parcel build index.html"
+      "dev": "parcel ./src/index.html",
+      "build": "parcel build ./src/index.html --dist-dir public --public-url ./"
+      
   },
   "keywords": [],
   "author": "",
   "license": "ISC",
   "description": "",
   "devDependencies": {
-    "parcel": "^2.13.3",
-    "typescript": "^5.7.3"
+    "parcel": "^2.13.3"
   }
 }
